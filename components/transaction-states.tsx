@@ -107,10 +107,10 @@ const TransactionStates = () => {
               initial={{
                 opacity: 0,
                 scale: 0.5,
-                transformOrigin: "left center",
+                transformOrigin: "left bottom",
               }}
-              animate={{ opacity: 1, scale: 1, transformOrigin: "left center" }}
-              exit={{ opacity: 0, scale: 0.8, transformOrigin: "left center" }}
+              animate={{ opacity: 1, scale: 1, transformOrigin: "left bottom" }}
+              exit={{ opacity: 0, scale: 0.8, transformOrigin: "left bottom" }}
               transition={
                 {
                   duration: 0.4,
@@ -132,10 +132,10 @@ const TransactionStates = () => {
               initial={{
                 opacity: 0,
                 scale: 0.5,
-                transformOrigin: "left center",
+                transformOrigin: "left bottom",
               }}
-              animate={{ opacity: 1, scale: 1, transformOrigin: "left center" }}
-              exit={{ opacity: 0, scale: 0.8, transformOrigin: "left center" }}
+              animate={{ opacity: 1, scale: 1, transformOrigin: "left bottom" }}
+              exit={{ opacity: 0, scale: 0.8, transformOrigin: "left bottom" }}
               transition={
                 {
                   duration: 0.4,
