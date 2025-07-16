@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, Transition } from "motion/react";
-import useMeasure from "react-use-measure";
 import WarningIcon from "./warningIcon";
 import CheckIcon from "./checkicon";
 
@@ -30,7 +29,6 @@ const SPRING = {
 
 const TransactionStates = () => {
   const [buttonState, setButtonState] = useState("loading");
-  const [ref, bounds] = useMeasure();
   const [isSuccess, setIsSuccess] = useState(false);
 
   const buttonCopyArray = transactionStates[buttonState].copy.split(" ");
@@ -175,9 +173,9 @@ const TransactionStates = () => {
                 }}
                 exit={{
                   opacity: 0,
-                  x: buttonState !== "loading" ? 20 : -20,
+                  x: buttonState !== "loading" ? 40 : -40,
                   transition: {
-                    duration: 0.1,
+                    duration: 0.15,
                   } as Transition,
                 }}
                 transition={
