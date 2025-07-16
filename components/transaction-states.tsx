@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, Transition } from "motion/react";
 import useMeasure from "react-use-measure";
 import WarningIcon from "./warningIcon";
 import CheckIcon from "./checkicon";
@@ -19,6 +19,13 @@ const transactionStates: Record<string, { copy: string; color: string }> = {
     copy: "Transaction \u00A0Safe",
     color: "#34C759",
   },
+};
+
+const SPRING = {
+  type: "spring",
+  damping: 10,
+  mass: 0.45,
+  stiffness: 100,
 };
 
 const TransactionStates = () => {
@@ -70,42 +77,76 @@ const TransactionStates = () => {
           className="absolute inset-0 rounded-full opacity-[0.15] transition-colors duration-200 pointer-events-none"
           style={{ backgroundColor: transactionStates[buttonState].color }}
         />
-        <AnimatePresence>
+        <AnimatePresence initial={false} mode="popLayout">
           {buttonState === "loading" && (
-            <div className="w-5 h-5 flex items-center justify-center">
+            <motion.div
+              initial={{
+                opacity: 0,
+                scale: 0.5,
+                transformOrigin: "right center",
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                transformOrigin: "right center",
+              }}
+              exit={{ opacity: 0, scale: 0.8, transformOrigin: "right center" }}
+              transition={
+                {
+                  duration: 0.4,
+                  ...SPRING,
+                } as Transition
+              }
+              className="w-6 h-6 flex items-center justify-center"
+              key="loading"
+            >
               <div className="spinner"></div>
-            </div>
+            </motion.div>
           )}
+
           {buttonState === "warning" && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{
-                duration: 0.4,
-                type: "spring",
-                bounce: 0,
+              initial={{
+                opacity: 0,
+                scale: 0.5,
+                transformOrigin: "left center",
               }}
+              animate={{ opacity: 1, scale: 1, transformOrigin: "left center" }}
+              exit={{ opacity: 0, scale: 0.8, transformOrigin: "left center" }}
+              transition={
+                {
+                  duration: 0.4,
+                  ...SPRING,
+                } as Transition
+              }
               className="w-5 h-5 flex items-center justify-center"
               style={{ color: transactionStates["warning"].color }}
+              key="warning"
             >
               <div className="warning-icon">
                 <WarningIcon />
               </div>
             </motion.div>
           )}
+
           {buttonState === "success" && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{
-                duration: 0.4,
-                type: "spring",
-                bounce: 0,
+              initial={{
+                opacity: 0,
+                scale: 0.5,
+                transformOrigin: "left center",
               }}
+              animate={{ opacity: 1, scale: 1, transformOrigin: "left center" }}
+              exit={{ opacity: 0, scale: 0.8, transformOrigin: "left center" }}
+              transition={
+                {
+                  duration: 0.4,
+                  ...SPRING,
+                } as Transition
+              }
               className="w-6 h-6 flex items-center justify-center"
               style={{ color: transactionStates["success"].color }}
+              key="success"
             >
               <div className="check-icon">
                 <CheckIcon />
@@ -128,28 +169,27 @@ const TransactionStates = () => {
                   x: 0,
                   transition: {
                     duration: 0.25,
-                    type: "spring",
-                    bounce: 0,
+                    ...SPRING,
                     delay: 0.01,
-                  },
+                  } as Transition,
                 }}
                 exit={{
                   opacity: 0,
-                  x: buttonState !== "loading" ? 50 : -50,
+                  x: buttonState !== "loading" ? 20 : -20,
                   transition: {
                     duration: 0.1,
-                  },
+                  } as Transition,
                 }}
-                transition={{
-                  duration: 0.25,
-                  type: "spring",
-                  bounce: 0,
-                  opacity: {
-                    duration: 0.35,
-                    type: "spring",
-                    bounce: 0,
-                  },
-                }}
+                transition={
+                  {
+                    duration: 0.25,
+                    ...SPRING,
+                    opacity: {
+                      duration: 0.35,
+                      ...SPRING,
+                    },
+                  } as Transition
+                }
                 className="relative z-1 inline-block will-change-transform"
               >
                 {char}
