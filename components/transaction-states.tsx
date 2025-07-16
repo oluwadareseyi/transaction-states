@@ -34,6 +34,7 @@ const TransactionStates = () => {
   const buttonCopyArray = transactionStates[buttonState].copy.split(" ");
 
   useEffect(() => {
+    // This is a hack to simulate the transaction states
     const interval = setInterval(() => {
       setButtonState((prev) => {
         if (prev === "success") {
