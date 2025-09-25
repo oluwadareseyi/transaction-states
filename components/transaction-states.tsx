@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, Transition } from "motion/react";
+import {
+  animate,
+  AnimatePresence,
+  motion,
+  scale,
+  Transition,
+} from "motion/react";
 import WarningIcon from "./warningIcon";
 import CheckIcon from "./checkicon";
 
@@ -25,6 +31,31 @@ const SPRING = {
   damping: 10,
   mass: 0.45,
   stiffness: 100,
+};
+
+const variants = {
+  initial: {
+    opacity: 0,
+    filter: "blur(5px)",
+    scale: 0.5,
+    transformOrigin: "left bottom",
+  },
+  animate: {
+    opacity: 1,
+    filter: "blur(0px)",
+    scale: 1,
+    transformOrigin: "left bottom",
+  },
+  exit: {
+    opacity: 0,
+    filter: "blur(5px)",
+    scale: 0.8,
+    transformOrigin: "left bottom",
+  },
+  transition: {
+    ...SPRING,
+    duration: 0.4,
+  },
 };
 
 const TransactionStates = () => {
@@ -80,22 +111,18 @@ const TransactionStates = () => {
           {buttonState === "loading" && (
             <motion.div
               initial={{
-                opacity: 0,
-                scale: 0.5,
+                ...variants.initial,
                 transformOrigin: "right center",
               }}
               animate={{
-                opacity: 1,
-                scale: 1,
+                ...variants.animate,
                 transformOrigin: "right center",
               }}
-              exit={{ opacity: 0, scale: 0.8, transformOrigin: "right center" }}
-              transition={
-                {
-                  duration: 0.4,
-                  ...SPRING,
-                } as Transition
-              }
+              exit={{
+                ...variants.exit,
+                transformOrigin: "right center",
+              }}
+              transition={variants.transition as Transition}
               className="w-6 h-6 flex items-center justify-center"
               key="loading"
             >
@@ -105,19 +132,7 @@ const TransactionStates = () => {
 
           {buttonState === "warning" && (
             <motion.div
-              initial={{
-                opacity: 0,
-                scale: 0.5,
-                transformOrigin: "left bottom",
-              }}
-              animate={{ opacity: 1, scale: 1, transformOrigin: "left bottom" }}
-              exit={{ opacity: 0, scale: 0.8, transformOrigin: "left bottom" }}
-              transition={
-                {
-                  duration: 0.4,
-                  ...SPRING,
-                } as Transition
-              }
+              variants={variants}
               className="w-5 h-5 flex items-center justify-center"
               style={{ color: transactionStates["warning"].color }}
               key="warning"
@@ -130,19 +145,7 @@ const TransactionStates = () => {
 
           {buttonState === "success" && (
             <motion.div
-              initial={{
-                opacity: 0,
-                scale: 0.5,
-                transformOrigin: "left bottom",
-              }}
-              animate={{ opacity: 1, scale: 1, transformOrigin: "left bottom" }}
-              exit={{ opacity: 0, scale: 0.8, transformOrigin: "left bottom" }}
-              transition={
-                {
-                  duration: 0.4,
-                  ...SPRING,
-                } as Transition
-              }
+              variants={variants}
               className="w-6 h-6 flex items-center justify-center"
               style={{ color: transactionStates["success"].color }}
               key="success"
